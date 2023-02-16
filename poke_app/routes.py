@@ -14,8 +14,8 @@ auth = Blueprint("auth", __name__)
 @main.route('/')
 def homepage():
     pokemon = Pokemon.query.all()
-    print(pokemon)
-    return render_template('home.html', all_pokemon=pokemon)
+    items = Items.query.all()
+    return render_template('home.html', pokemon=pokemon, items=items)
 
 @main.route('/create_pokemon', methods=['GET', 'POST'])
 def create_pokemon():
@@ -32,7 +32,7 @@ def create_pokemon():
         db.session.add(new_pokemon)
         db.session.commit()
         flash(f'Pokemon {new_pokemon.name} has been created!', 'success')
-        return redirect(url_for('main.homepage'))
+        return redirect(url_for('main.pokemon', pokemon_id=new_pokemon.id))
     return render_template('create_pokemon.html', form=form)
 
 @main.route('/create_item', methods=['GET', 'POST'])
@@ -48,5 +48,16 @@ def create_item():
         db.session.add(new_item)
         db.session.commit()
         flash(f'Item {new_item.name} has been created!', 'success')
-        return redirect(url_for('main.homepage'))
+        return redirect(url_for('main.item', item_id=new_item.id))
     return render_template('create_item.html', form=form)
+
+@main.route('/pokemon/<int:pokemon_id>')
+def pokemon(pokemon_id):
+    pokemon = Pokemon.query.get_or_404(pokemon_id)
+    return render_template('pokemon_details.html', pokemon=pokemon)
+
+@main.route('/item/<int:item_id>')
+def item(item_id):
+    item = Items.query.get_or_404(item_id)
+    return render_template('item_details.html', item=item)
+

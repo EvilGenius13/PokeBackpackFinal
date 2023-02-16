@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Create an Item</h1>
+
+<form method="POST">
+  <legend>Please enter the details for your new item for PokeMart:</legend>
+  {{ form.csrf_token }}
+  
+  {{ form.name.label}}
+  {{ form.name }}
+  <br>
+  {{ form.price.label}}
+  {{ form.price }}
+  <br>
+  {{ form.description.label}}
+  {{ form.description }}
+  <br>
+  {{ form.artwork.label}}
+  {{ form.artwork }}
+
+  
+  <input type="submit" value="Create Item">
+</form>
+
+{% endblock %}

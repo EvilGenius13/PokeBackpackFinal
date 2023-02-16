@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{pokemon.name}}</h1>
+  <img src="{{ pokemon.artwork }}" alt="{{ pokemon.name }}">
+  <p>PodeDex#: {{ pokemon.id }}</p>
+  <p>Type: {{ pokemon.category }}</p>
+  <p>Height: {{ pokemon.height }}</p>
+  <p>Weight: {{ pokemon.weight }}</p>
+  <a href="/pokemon/{{ pokemon.id }}/edit_pokemon">Edit Pokemon</a>
+
+{% endblock %}
