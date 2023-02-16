@@ -1,13 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, SelectField, SubmitField, FloatField, PasswordField
+from wtforms import StringField, SelectField, SubmitField, FloatField, PasswordField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Length, URL, ValidationError
-from poke_app.models import Pokemon, Items, Users, PokemonCategory
+from poke_app.models import Pokemon, PokemonCategory, User
 from poke_app import bcrypt
 
 class PokemonForm(FlaskForm):
+    id = FloatField('PokeDex', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=50)])
-    category = SelectField('Category', choices=[(tag, tag.value) for tag in PokemonCategory], validators=[DataRequired()])
+    category = SelectField('Category', choices= PokemonCategory.choices(), validators=[DataRequired()])
     artwork = StringField('Artwork', validators=[DataRequired(), URL()])
     height = FloatField('Height', validators=[DataRequired()])
     weight = FloatField('Weight', validators=[DataRequired()])
@@ -20,40 +21,30 @@ class ItemsForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=50)])
     submit = SubmitField('Add Item')
 
-class UsersForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=50)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=2, max=50)])
-    submit = SubmitField('Add User')
-
 class SignUpForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=50)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=2, max=50)])
+    username = StringField('User Name', validators=[DataRequired(), Length(min=3, max=50)])
+    password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
-        user = Users.query.filter_by(username=username.data).first()
+        user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('Username already exists')
+            raise ValidationError('Username already exists. Please try another name.')
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=50)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=2, max=50)])
-    submit = SubmitField('Login')
+    username = StringField('User Name', validators=[DataRequired(), Length(min=3, max=50)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Log In')
 
     def validate_username(self, username):
-        user = Users.query.filter_by(username=username.data).first()
+        user = User.query.filter_by(username=username.data).first()
         if not user:
-            raise ValidationError('Username does not exist')
+            raise ValidationError('No user with that username. Please try again.')
 
     def validate_password(self, password):
-        user = Users.query.filter_by(username=self.username.data).first()
-        if user and not bcrypt.check_password_hash(user.password, password.data):
-            raise ValidationError('Incorrect password')
+        user = User.query.filter_by(username=self.username.data).first()
+        if user and not bcrypt.check_password_hash(
+                user.password, password.data):
+            raise ValidationError('Password does not match. Please try again.')
 
-class FavouritePokemonForm(FlaskForm):
-    pokemon = QuerySelectField(query_factory=lambda: Pokemon.query.all(), get_label='name')
-    submit = SubmitField('Add to Favourites')
-
-
-
-
+#TODO: Need favourite team table

@@ -1,7 +1,7 @@
-from poke_app.models import User
-from poke_app.extensions import app
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from poke_app.models import User
+from poke_app.extensions import app
 
 login = LoginManager()
 login.login_view = 'auth.login'
