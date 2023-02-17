@@ -4,20 +4,14 @@
 <h1>Signup</h1>
 
 <form method="POST">
-  <legend>Please fill out the following fields:</legend>
+  <legend>Hello future trainer! Please fill out the fields below:</legend>
   {{ form.csrf_token }}
   
-  {{ form.name.label}}
-  {{ form.name }}
+  {{ form.username.label}}
+  {{ form.username }}
   <br>
-  {{ form.price.label}}
-  {{ form.price }}
-  <br>
-  {{ form.description.label}}
-  {{ form.description }}
-  <br>
-  {{ form.artwork.label}}
-  {{ form.artwork }}
+  {{ form.password.label}}
+  {{ form.password }}
 
   
   <input type="submit" value="Register">

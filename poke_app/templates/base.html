@@ -7,12 +7,29 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     </head>
     <body>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/create_pokemon">Create Pokemon</a>
-            <a href="/create_item">Create Item</a>
-        </nav>
-        {% block content %}{% endblock %}
+        <div class="main">
+            {% for message in get_flashed_messages() %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+            <nav>
+                <div id="navigation">
+                    <a href="/">Home</a>
+                    {% if current_user.is_authenticated %}
+                        <a href="/create_pokemon">Create Pokemon</a>
+                        <a href="/create_item">Create Item</a>
+                    {% endif %}
+                </div>
+                <div id="user">
+                {% if current_user.is_authenticated %}
+                    <a id="user-link">Signed in as <em id="user-name">{{ current_user.username }}</em></a>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                    <a href="/signup">Sign Up</a>
+                    {% endif %}
+                </div>
+            </nav>
+            {% block content %}{% endblock %}
         </div>
     </body>
 </html>

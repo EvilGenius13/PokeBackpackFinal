@@ -1,3 +1,4 @@
+import random
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from poke_app.models import Pokemon, Items, User
@@ -15,7 +16,9 @@ auth = Blueprint("auth", __name__)
 def homepage():
     pokemon = Pokemon.query.all()
     items = Items.query.all()
-    return render_template('home.html', pokemon=pokemon, items=items)
+    potd = random.choice(Pokemon.query.all())
+    iotd = random.choice(Items.query.all())
+    return render_template('home.html', pokemon=pokemon, items=items, potd=potd, iotd=iotd)
 
 @main.route('/create_pokemon', methods=['GET', 'POST'])
 def create_pokemon():
@@ -117,6 +120,23 @@ def signup():
             )
         db.session.add(user)
         db.session.commit()
-        flash('Account Created Successfully!')
+        flash('Account created successfully!')
         return redirect(url_for('auth.login'))
     return render_template('signup.html', form=form)
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        login_user(user, remember=True)
+        next_page = request.args.get('next')
+        flash('You have been logged in!', 'success')
+        return redirect(next_page if next_page else url_for('main.homepage'))
+    return render_template('login.html', form=form)
+
+@auth.route('/logout')
+def logout():
+    logout_user()
+    flash('You have been logged out!', 'success')
+    return redirect(url_for('main.homepage'))
