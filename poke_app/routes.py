@@ -61,3 +61,62 @@ def item(item_id):
     item = Items.query.get_or_404(item_id)
     return render_template('item_details.html', item=item)
 
+@main.route('/pokemon/<int:pokemon_id>/edit', methods=['GET', 'POST'])
+def edit_pokemon(pokemon_id):
+    pokemon = Pokemon.query.get_or_404(pokemon_id)
+    form = PokemonForm(obj=pokemon)
+    if form.validate_on_submit():
+        pokemon.name = form.name.data
+        pokemon.category = form.category.data
+        pokemon.artwork = form.artwork.data
+        pokemon.height = form.height.data
+        pokemon.weight = form.weight.data
+        db.session.commit()
+        flash(f'Pokemon {pokemon.name} has been updated!', 'success')
+        return redirect(url_for('main.pokemon', pokemon_id=pokemon.id))
+    return render_template('edit_pokemon.html', form=form, pokemon=pokemon)
+
+@main.route('/item/<int:item_id>/edit', methods=['GET', 'POST'])
+def edit_item(item_id):
+    item = Items.query.get_or_404(item_id)
+    form = ItemsForm(obj=item)
+    if form.validate_on_submit():
+        item.name = form.name.data
+        item.artwork = form.artwork.data
+        item.price = form.price.data
+        item.description = form.description.data
+        db.session.commit()
+        flash(f'Item {item.name} has been updated!', 'success')
+        return redirect(url_for('main.item', item_id=item.id))
+    return render_template('edit_item.html', form=form, item=item)
+
+@main.route('/pokemon/<int:pokemon_id>/delete', methods=['GET', 'POST'])
+def delete_pokemon(pokemon_id):
+    pokemon = Pokemon.query.get_or_404(pokemon_id)
+    db.session.delete(pokemon)
+    db.session.commit()
+    flash(f'Pokemon {pokemon.name} has been deleted!', 'success')
+    return redirect(url_for('main.homepage'))
+
+@main.route('/item/<int:item_id>/delete', methods=['GET', 'POST'])
+def delete_item(item_id):
+    item = Items.query.get_or_404(item_id)
+    db.session.delete(item)
+    db.session.commit()
+    flash(f'Item {item.name} has been deleted!', 'success')
+    return redirect(url_for('main.homepage'))
+
+@auth.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = SignUpForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(
+            username=form.username.data, 
+            password=hashed_password
+            )
+        db.session.add(user)
+        db.session.commit()
+        flash('Account Created Successfully!')
+        return redirect(url_for('auth.login'))
+    return render_template('signup.html', form=form)

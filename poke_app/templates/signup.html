@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Signup</h1>
+
+<form method="POST">
+  <legend>Please fill out the following fields:</legend>
+  {{ form.csrf_token }}
+  
+  {{ form.name.label}}
+  {{ form.name }}
+  <br>
+  {{ form.price.label}}
+  {{ form.price }}
+  <br>
+  {{ form.description.label}}
+  {{ form.description }}
+  <br>
+  {{ form.artwork.label}}
+  {{ form.artwork }}
+
+  
+  <input type="submit" value="Register">
+</form>
+
+{% endblock %}
