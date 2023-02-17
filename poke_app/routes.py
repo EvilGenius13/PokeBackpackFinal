@@ -10,6 +10,25 @@ import requests
 main = Blueprint("main", __name__)
 auth = Blueprint("auth", __name__)
 
+colours = {
+    'Normal': '#A8A77A',
+    'Fire': '#EE8130',
+    'Water': '#6390F0',
+    'Electric': '#F7D02C',
+    'Grass': '#7AC74C',
+    'Ice': '#96D9D6',
+    'Fighting': '#c03028',
+    'Poison': '#A33EA1',
+    'Ground': '#E2BF65',
+    'Flying': '#A98FF3',
+    'Psychic': '#F95587',
+    'Bug': '#A6B91A',
+    'Rock': '#B6A136',
+    'Ghost': '#705898',
+    'Dragon': '#6F35FC',
+    'Fairy': '#D685AD'
+}
+
 #! Routes Below this line
 #------------------------------------------------------------#
 
@@ -61,8 +80,13 @@ def create_item():
 @main.route('/pokemon/<int:pokemon_id>')
 @login_required
 def pokemon(pokemon_id):
+    colour = ''
     pokemon = Pokemon.query.get_or_404(pokemon_id)
-    return render_template('pokemon_details.html', pokemon=pokemon)
+    print(pokemon.category)
+    for key, value in colours.items():
+        if str(pokemon.category) == str(key):
+            colour = value
+    return render_template('pokemon_details.html', pokemon=pokemon, colour=colour)
 
 @main.route('/item/<int:item_id>')
 @login_required
@@ -154,14 +178,15 @@ def logout():
 
 @main.route('/filldata', methods=['GET', 'POST'])
 def filldata():
-    API = 'https://pokeapi.co/api/v2/pokemon/'
+    POKE_API = 'https://pokeapi.co/api/v2/pokemon/'
+    ITEM_API = 'https://pokeapi.co/api/v2/item/'
     for i in range(1, 152):
-        response = requests.get(API + str(i))
+        response = requests.get(POKE_API + str(i))
         data = response.json()
         pokemon = Pokemon(
             id = i,
             name = data['name'],
-            category = data['types'][0]['type']['name'],
+            category = data['types'][0]['type']['name'].upper(),
             artwork = data['sprites']['front_default'],
             attack = data['stats'][4]['base_stat'],
             defense = data['stats'][3]['base_stat'],
@@ -169,5 +194,18 @@ def filldata():
         )
         db.session.add(pokemon)
         db.session.commit()
-        print(data)
+        flash('Data has been filled!', 'success')
+    for i in range(1, 21):
+        response = requests.get(ITEM_API + str(i))
+        data = response.json()
+        item = Items(
+            id = i,
+            name = data['name'],
+            artwork = data['sprites']['default'],
+            price = random.randint(100, 1000),
+            description = data['effect_entries'][0]['effect']
+        )
+        db.session.add(item)
+        db.session.commit()
+        flash('Data has been filled!', 'success')
     return redirect(url_for('main.homepage'))

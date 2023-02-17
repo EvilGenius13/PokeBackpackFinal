@@ -19,6 +19,7 @@ class PokemonCategory(FormEnum):
     ROCK = 'Rock'
     GHOST = 'Ghost'
     DRAGON = 'Dragon'
+    FAIRY = 'Fairy'
 
 class Pokemon(db.Model):
   id = db.Column(db.Integer, primary_key=True)

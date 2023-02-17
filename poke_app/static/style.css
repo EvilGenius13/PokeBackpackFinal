@@ -84,3 +84,39 @@ input[type="submit"]:hover {
     flex-direction: row;
     align-items: center;
 }
+
+#pokemon-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+#pokemon-card {
+    display: flex;
+    flex-direction: column;
+    border : 10px solid #ffcb05;
+    padding: 10px 20px;
+    border-radius: 8px;
+    /* background-color: #D685AD; */
+}
+
+#pokemon-body img {
+    width: 200px;
+    height: 200px;
+    border: 5px solid #ffcb05;
+    box-shadow: 0 0 15px #ffcb05;
+}
+
+#pokemon-body h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+#pokemon-body p {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 5px;
+}
+
