@@ -5,8 +5,9 @@
   <img src="{{ pokemon.artwork }}" alt="{{ pokemon.name }}">
   <p>PodeDex#: {{ pokemon.id }}</p>
   <p>Type: {{ pokemon.category }}</p>
-  <p>Height: {{ pokemon.height }}</p>
-  <p>Weight: {{ pokemon.weight }}</p>
+  <p>Height: {{ pokemon.attack }}</p>
+  <p>Weight: {{ pokemon.defense }}</p>
+  <p>HP: {{ pokemon.hp }}</p>
   <a href="/pokemon/{{ pokemon.id }}/edit">Edit Pokemon</a>
   <a href="/pokemon/{{ pokemon.id }}/delete">Delete Pokemon</a>
 

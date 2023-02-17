@@ -1,29 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Create a Pokemon</h1>
 
 <form method="POST">
+  <h1>Create a Pokemon</h1>
   <legend>Please enter the details for your newly found Pokemon:</legend>
   {{ form.csrf_token }}
   
   {{ form.id.label}}
   {{ form.id }}
-  <br>
+  
   {{ form.name.label}}
   {{ form.name }}
-  <br>
+  
   {{ form.category.label}}
   {{ form.category }}
-  <br>
+  
   {{ form.artwork.label}}
   {{ form.artwork }}
-  <br>
-  {{ form.height.label}}
-  {{ form.height }}
-  <br>
-  {{ form.weight.label}}
-  {{ form.weight }}
+  
+  {{ form.attack.label}}
+  {{ form.attack }}
+  
+  {{ form.defense.label}}
+  {{ form.defense }}
+  
+  {{ form.hp.label}}
+  {{ form.hp }}
   
   <input type="submit" value="Create Pokemon">
 </form>

@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Signup</h1>
 
 <form method="POST">
-  <legend>Hello future trainer! Please fill out the fields below:</legend>
+  <h1>Signup</h1>
+  <legend>Hello, future Trainer! Please fill out the fields below:</legend>
   {{ form.csrf_token }}
   
   {{ form.username.label}}
   {{ form.username }}
-  <br>
+
   {{ form.password.label}}
   {{ form.password }}
 

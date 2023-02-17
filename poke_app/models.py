@@ -25,8 +25,9 @@ class Pokemon(db.Model):
   name = db.Column(db.String(50), nullable=False)
   category = db.Column(db.Enum(PokemonCategory), nullable=False)
   artwork = db.Column(URLType, nullable=False)
-  height = db.Column(db.Float, nullable=False)
-  weight = db.Column(db.Float, nullable=False)
+  attack = db.Column(db.Integer, nullable=False)
+  defense = db.Column(db.Integer, nullable=False)
+  hp = db.Column(db.Integer, nullable=False)
   
   
 class Items(db.Model):

@@ -8,10 +8,11 @@ from poke_app import bcrypt
 class PokemonForm(FlaskForm):
     id = FloatField('PokeDex', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=50)])
-    category = SelectField('Category', choices= PokemonCategory.choices(), validators=[DataRequired()])
+    category = SelectField('Type', choices= PokemonCategory.choices(), validators=[DataRequired()])
     artwork = StringField('Artwork', validators=[DataRequired(), URL()])
-    height = FloatField('Height', validators=[DataRequired()])
-    weight = FloatField('Weight', validators=[DataRequired()])
+    attack = FloatField('Attack', validators=[DataRequired()])
+    defense = FloatField('Defense', validators=[DataRequired()])
+    hp = FloatField('HP', validators=[DataRequired()])
     submit = SubmitField('Add Pokemon')
 
 class ItemsForm(FlaskForm):

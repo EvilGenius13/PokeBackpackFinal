@@ -1,29 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Edit a Pokemon</h1>
 
 <form method="POST">
+  <h1>Edit a Pokemon</h1>
   <legend>You can edit this Pokemon's details below:</legend>
   {{ form.csrf_token }}
   
   {{ form.id.label}}
   {{ form.id }}
-  <br>
+  
   {{ form.name.label}}
   {{ form.name }}
-  <br>
+  
   {{ form.category.label}}
   {{ form.category }}
-  <br>
+  
   {{ form.artwork.label}}
   {{ form.artwork }}
-  <br>
-  {{ form.height.label}}
-  {{ form.height }}
-  <br>
-  {{ form.weight.label}}
-  {{ form.weight }}
+  
+  {{ form.attack.label}}
+  {{ form.attack }}
+  
+  {{ form.defense.label}}
+  {{ form.defense }}
+  
+  {{ form.hp.label}}
+  {{ form.hp }}
   
   <input type="submit" value="Update Pokemon">
 </form>

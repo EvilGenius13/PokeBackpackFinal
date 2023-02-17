@@ -5,6 +5,7 @@ from poke_app.models import Pokemon, Items, User
 from poke_app.forms import PokemonForm, ItemsForm, SignUpForm, LoginForm
 from poke_app import bcrypt
 from poke_app.extensions import app, db
+import requests
 
 main = Blueprint("main", __name__)
 auth = Blueprint("auth", __name__)
@@ -21,6 +22,7 @@ def homepage():
     return render_template('home.html', pokemon=pokemon, items=items, potd=potd, iotd=iotd)
 
 @main.route('/create_pokemon', methods=['GET', 'POST'])
+@login_required
 def create_pokemon():
     form = PokemonForm()
     if form.validate_on_submit():
@@ -29,8 +31,9 @@ def create_pokemon():
             name = form.name.data,
             category = form.category.data,
             artwork = form.artwork.data,
-            height = form.height.data,
-            weight = form.weight.data
+            attack = form.attack.data,
+            defense = form.defense.data,
+            hp = form.hp.data
         )
         db.session.add(new_pokemon)
         db.session.commit()
@@ -39,6 +42,7 @@ def create_pokemon():
     return render_template('create_pokemon.html', form=form)
 
 @main.route('/create_item', methods=['GET', 'POST'])
+@login_required
 def create_item():
     form = ItemsForm()
     if form.validate_on_submit():
@@ -55,16 +59,19 @@ def create_item():
     return render_template('create_item.html', form=form)
 
 @main.route('/pokemon/<int:pokemon_id>')
+@login_required
 def pokemon(pokemon_id):
     pokemon = Pokemon.query.get_or_404(pokemon_id)
     return render_template('pokemon_details.html', pokemon=pokemon)
 
 @main.route('/item/<int:item_id>')
+@login_required
 def item(item_id):
     item = Items.query.get_or_404(item_id)
     return render_template('item_details.html', item=item)
 
 @main.route('/pokemon/<int:pokemon_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_pokemon(pokemon_id):
     pokemon = Pokemon.query.get_or_404(pokemon_id)
     form = PokemonForm(obj=pokemon)
@@ -72,14 +79,16 @@ def edit_pokemon(pokemon_id):
         pokemon.name = form.name.data
         pokemon.category = form.category.data
         pokemon.artwork = form.artwork.data
-        pokemon.height = form.height.data
-        pokemon.weight = form.weight.data
+        pokemon.attack = form.attack.data
+        pokemon.defense = form.defense.data
+        pokemon.hp = form.hp.data
         db.session.commit()
         flash(f'Pokemon {pokemon.name} has been updated!', 'success')
         return redirect(url_for('main.pokemon', pokemon_id=pokemon.id))
     return render_template('edit_pokemon.html', form=form, pokemon=pokemon)
 
 @main.route('/item/<int:item_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_item(item_id):
     item = Items.query.get_or_404(item_id)
     form = ItemsForm(obj=item)
@@ -94,6 +103,7 @@ def edit_item(item_id):
     return render_template('edit_item.html', form=form, item=item)
 
 @main.route('/pokemon/<int:pokemon_id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_pokemon(pokemon_id):
     pokemon = Pokemon.query.get_or_404(pokemon_id)
     db.session.delete(pokemon)
@@ -102,6 +112,7 @@ def delete_pokemon(pokemon_id):
     return redirect(url_for('main.homepage'))
 
 @main.route('/item/<int:item_id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_item(item_id):
     item = Items.query.get_or_404(item_id)
     db.session.delete(item)
@@ -139,4 +150,24 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out!', 'success')
+    return redirect(url_for('main.homepage'))
+
+@main.route('/filldata', methods=['GET', 'POST'])
+def filldata():
+    API = 'https://pokeapi.co/api/v2/pokemon/'
+    for i in range(1, 152):
+        response = requests.get(API + str(i))
+        data = response.json()
+        pokemon = Pokemon(
+            id = i,
+            name = data['name'],
+            category = data['types'][0]['type']['name'],
+            artwork = data['sprites']['front_default'],
+            attack = data['stats'][4]['base_stat'],
+            defense = data['stats'][3]['base_stat'],
+            hp = data['stats'][5]['base_stat']
+        )
+        db.session.add(pokemon)
+        db.session.commit()
+        print(data)
     return redirect(url_for('main.homepage'))

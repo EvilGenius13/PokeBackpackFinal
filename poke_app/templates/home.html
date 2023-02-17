@@ -1,41 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>PokeDB</h1>
+  <h1>PokeDB</h1>
   <p>Welcome to PokeTeam Tracker!</p>
-  {% if current_user.is_authenticated %}
-    {% for poke in pokemon %}
-      <div class="pokemon">
-        <h2>{{ poke.name }}</h2>
-        <a href="/pokemon/{{ poke.id }}"><img src="{{ poke.artwork }}" alt="{{ poke.name }}"></a>
+  <div id="homepage-container">
+    {% if current_user.is_authenticated %}
+      {% for poke in pokemon %}
+        <div class="pokemon">
+          <h2>{{ poke.name }}</h2>
+          <a href="/pokemon/{{ poke.id }}"><img src="{{ poke.artwork }}" alt="{{ poke.name }}"></a>
+        </div>
+      {% endfor %}
+      {% for item in items %}
+        <div class="item">
+          <h2>{{ item.name }}</h2>
+          <a href="/item/{{ item.id }}"><img src="{{ item.artwork }}" alt="{{ item.name }}"></a>
+        </div>
+      {% endfor %}
+      {% else %}
+      <div class="potd">
+        <h1>Pokemon of the day:</h1>
+        <h2>{{ potd.name }}</h2>
+        <a href="/pokemon/{{ potd.id }}"><img src="{{ potd.artwork }}" alt="{{ potd.name }}"></a>
+        <p>Category: {{ potd.category }}</p>
+        <p>Attack: {{ potd.attack }}</p>
+        <p>Defense: {{ potd.defense }}</p>
       </div>
-    {% endfor %}
-
-    {% for item in items %}
-      <div class="item">
-        <h2>{{ item.name }}</h2>
-        <a href="/item/{{ item.id }}"><img src="{{ item.artwork }}" alt="{{ item.name }}"></a>
+      <div class="iotd">
+        <h1>Item of the day:</h1>
+        <h2>{{ iotd.name }}</h2>
+        <a href="/item/{{ iotd.id }}"><img src="{{ iotd.artwork }}" alt="{{ iotd.name }}"></a>
+        <p>Price: {{ iotd.price }}</p>
+        <p>Description: {{ iotd.description }}</p>
       </div>
-    {% endfor %}
-    {% else %}
-    <div class="potd">
-      <h1>Pokemon of the day:</h1>
-      <h2>{{ potd.name }}</h2>
-      <img src="{{ potd.artwork }}" alt="{{ potd.name }}">
-      <p>Category: {{ potd.category }}</p>
-      <p>Height: {{ potd.height }}</p>
-      <p>Weight: {{ potd.weight }}</p>
-    </div>
-    <div class="iotd">
-      <h1>Item of the day:</h1>
-      <h2>{{ iotd.name }}</h2>
-      <img src="{{ iotd.artwork }}" alt="{{ iotd.name }}">
-      <p>Price: {{ iotd.price }}</p>
-      <p>Description: {{ iotd.description }}</p>
-    </div>
-    <div class="framed primary">
-      <span>Test Frame</span>
-    </div>
+  </div>
     
   {% endif %}
 {% endblock %}
