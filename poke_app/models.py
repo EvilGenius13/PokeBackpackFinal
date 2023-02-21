@@ -29,6 +29,7 @@ class Pokemon(db.Model):
   attack = db.Column(db.Integer, nullable=False)
   defense = db.Column(db.Integer, nullable=False)
   hp = db.Column(db.Integer, nullable=False)
+  favourited = db.relationship('User', secondary='favourite_pokemon', back_populates='favourite_pokemon')
   
   
 class Items(db.Model):
@@ -42,4 +43,10 @@ class User(UserMixin, db.Model):
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(50), nullable=False)
   password = db.Column(db.String(50), nullable=False)
+  email = db.Column(db.String(100), nullable=False)
+  favourite_pokemon = db.relationship('Pokemon', secondary='favourite_pokemon', back_populates='favourited')
 
+favourite_pokemon_list = db.Table('favourite_pokemon',
+  db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+  db.Column('pokemon_id', db.Integer, db.ForeignKey('pokemon.id'))
+)

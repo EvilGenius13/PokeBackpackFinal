@@ -25,6 +25,7 @@ class ItemsForm(FlaskForm):
 class SignUpForm(FlaskForm):
     username = StringField('User Name', validators=[DataRequired(), Length(min=3, max=50)])
     password = PasswordField('Password', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Length(min=3, max=100)])
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):

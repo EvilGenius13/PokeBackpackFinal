@@ -82,7 +82,6 @@ def create_item():
 def pokemon(pokemon_id):
     colour = ''
     pokemon = Pokemon.query.get_or_404(pokemon_id)
-    print(pokemon.category)
     for key, value in colours.items():
         if str(pokemon.category) == str(key):
             colour = value
@@ -151,7 +150,8 @@ def signup():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(
             username=form.username.data, 
-            password=hashed_password
+            password=hashed_password,
+            email=form.email.data 
             )
         db.session.add(user)
         db.session.commit()
@@ -209,3 +209,31 @@ def filldata():
         db.session.commit()
         flash('Data has been filled!', 'success')
     return redirect(url_for('main.homepage'))
+
+@main.route('/profile/<username>')
+def profile(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('profile.html', user=user)
+
+@main.route('/favourite/<int:pokemon_id>', methods=['POST'])
+@login_required
+def favourite(pokemon_id):
+    pokemon = Pokemon.query.get_or_404(pokemon_id)
+    team_length = len(current_user.favourite_pokemon)
+    if team_length >= 6:
+        flash(f'You can only have 6 favourite pokemon!', 'danger')
+        return redirect(url_for('main.pokemon', pokemon_id=pokemon.id))
+    else:
+        current_user.favourite_pokemon.append(pokemon)
+    db.session.commit()
+    flash(f'Pokemon {pokemon.name} has been added to your favourites!', 'success')
+    return redirect(url_for('main.pokemon', pokemon_id=pokemon.id))
+
+@main.route('/unfavourite/<int:pokemon_id>', methods=['POST'])
+@login_required
+def unfavourite(pokemon_id):
+    pokemon = Pokemon.query.get_or_404(pokemon_id)
+    current_user.favourite_pokemon.remove(pokemon)
+    db.session.commit()
+    flash(f'Pokemon {pokemon.name} has been removed from your favourites!', 'success')
+    return redirect(url_for('main.pokemon', pokemon_id=pokemon.id))

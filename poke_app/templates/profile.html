@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+  <div id="profile">
+  <h2>Hey, {{ current_user.username }}!</h2>
+  <h3>Favourite Pokemon</h3>
+    <div id="profile-list">
+    {% for pokemon in current_user.favourite_pokemon %}
+      <div id="profile_poke">
+        <h1 id="profile_poke_name">{{pokemon.name.capitalize()}}</h1>
+        <a href="/pokemon/{{ pokemon.id }}"><img src="{{ pokemon.artwork }}" alt="{{ pokemon.name }}"></a>
+      </div>
+      {% endfor %}
+    </div>
+{% else %}
+  <h1>Profile</h1>
+  <p>You are not logged in.</p>
+{% endif %}
+  </div>
+  
+{% endblock %}

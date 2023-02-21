@@ -4,8 +4,9 @@
 
 <form method="POST">
   <h1>Login</h1>
-  <h2>Not registered yet?</h2> <a href="/signup">Sign up here!</a>
-  <legend>Welcome back, trainer! Please login:</legend>
+  <h2>Not registered yet?</h2> 
+  <a href="/signup">Sign up here!</a>
+  <legend id="signup">Welcome back, trainer! Please login:</legend>
   {{ form.csrf_token }}
   
   {{ form.username.label}}
