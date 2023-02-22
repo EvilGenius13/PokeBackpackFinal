@@ -5,7 +5,7 @@ from poke_app.models import Pokemon, Items, User
 from poke_app.forms import PokemonForm, ItemsForm, SignUpForm, LoginForm
 from poke_app import bcrypt
 from poke_app.extensions import app, db
-# import requests
+import requests
 
 main = Blueprint("main", __name__)
 auth = Blueprint("auth", __name__)
@@ -176,39 +176,39 @@ def logout():
     flash('You have been logged out!', 'success')
     return redirect(url_for('main.homepage'))
 
-# @main.route('/filldata', methods=['GET', 'POST'])
-# def filldata():
-#     POKE_API = 'https://pokeapi.co/api/v2/pokemon/'
-#     ITEM_API = 'https://pokeapi.co/api/v2/item/'
-#     for i in range(1, 152):
-#         response = requests.get(POKE_API + str(i))
-#         data = response.json()
-#         pokemon = Pokemon(
-#             id = i,
-#             name = data['name'],
-#             category = data['types'][0]['type']['name'].upper(),
-#             artwork = data['sprites']['front_default'],
-#             attack = data['stats'][4]['base_stat'],
-#             defense = data['stats'][3]['base_stat'],
-#             hp = data['stats'][5]['base_stat']
-#         )
-#         db.session.add(pokemon)
-#         db.session.commit()
-#         flash('Data has been filled!', 'success')
-#     for i in range(1, 21):
-#         response = requests.get(ITEM_API + str(i))
-#         data = response.json()
-#         item = Items(
-#             id = i,
-#             name = data['name'],
-#             artwork = data['sprites']['default'],
-#             price = random.randint(100, 1000),
-#             description = data['effect_entries'][0]['effect']
-#         )
-#         db.session.add(item)
-#         db.session.commit()
-#         flash('Data has been filled!', 'success')
-#     return redirect(url_for('main.homepage'))
+@main.route('/filldata', methods=['GET', 'POST'])
+def filldata():
+    POKE_API = 'https://pokeapi.co/api/v2/pokemon/'
+    ITEM_API = 'https://pokeapi.co/api/v2/item/'
+    for i in range(1, 152):
+        response = requests.get(POKE_API + str(i))
+        data = response.json()
+        pokemon = Pokemon(
+            id = i,
+            name = data['name'],
+            category = data['types'][0]['type']['name'].upper(),
+            artwork = data['sprites']['front_default'],
+            attack = data['stats'][4]['base_stat'],
+            defense = data['stats'][3]['base_stat'],
+            hp = data['stats'][5]['base_stat']
+        )
+        db.session.add(pokemon)
+        db.session.commit()
+        flash('Data has been filled!', 'success')
+    for i in range(1, 21):
+        response = requests.get(ITEM_API + str(i))
+        data = response.json()
+        item = Items(
+            id = i,
+            name = data['name'],
+            artwork = data['sprites']['default'],
+            price = random.randint(100, 1000),
+            description = data['effect_entries'][0]['effect']
+        )
+        db.session.add(item)
+        db.session.commit()
+        flash('Data has been filled!', 'success')
+    return redirect(url_for('main.homepage'))
 
 @main.route('/profile/<username>')
 def profile(username):
