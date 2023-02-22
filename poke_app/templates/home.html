@@ -4,13 +4,13 @@
   <h1>PokeDB</h1>
   <p>Welcome to PokeTeam Tracker!</p>
   <div id="homepage-container">
+    {% if current_user.is_authenticated %}
     <div class="pokemon">
-      {% if current_user.is_authenticated %}
         {% for poke in pokemon %}
-          <div id="poke-grid">
-            <h2>{{ poke.name.capitalize() }}</h2>
-            <a href="/pokemon/{{ poke.id }}"><img src="{{ poke.artwork }}" alt="{{ poke.name }}"></a>
-          </div>
+        <div id="poke-grid">
+          <h2>{{ poke.name.capitalize() }}</h2>
+          <a href="/pokemon/{{ poke.id }}"><img src="{{ poke.artwork }}" alt="{{ poke.name }}"></a>
+        </div>
         {% endfor %}
     </div>
     <div class="item">

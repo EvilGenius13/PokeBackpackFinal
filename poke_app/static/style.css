@@ -79,12 +79,16 @@ input[type="submit"]:hover {
 }
 
 #homepage-container {
-    margin: 20px;
+    /* margin: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
     grid-template-areas:
-        "pokemons item"
+        "pokemons item" */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
 }
 
 #pokemon-body {
