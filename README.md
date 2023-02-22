@@ -16,8 +16,8 @@
   - Please note it will take a bit to complete. When it's done you'll get a bunch of messages saying Success
 
 ###Todo List
-- Add more tests
-- Switch to HP, Attack, Defense
+- Add tests
+- Try to get rid of style warning in pokemon_details.html 
 
 ###Future Features
 - Add a search bar

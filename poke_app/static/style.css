@@ -79,12 +79,6 @@ input[type="submit"]:hover {
 }
 
 #homepage-container {
-    /* margin: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-    grid-template-areas:
-        "pokemons item" */
     display: flex;
     flex-direction: row;
     align-items: flex-start;
