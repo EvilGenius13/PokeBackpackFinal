@@ -18,7 +18,7 @@
 ###Todo List
 - Add tests
 - Try to get rid of style warning in pokemon_details.html 
-- fix login
+
 
 ###Future Features
 - Add a search bar
