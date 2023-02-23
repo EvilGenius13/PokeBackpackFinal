@@ -19,7 +19,7 @@ class ItemsForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=50)])
     artwork = StringField('Artwork', validators=[DataRequired(), URL()])
     price = FloatField('Price', validators=[DataRequired()])
-    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=50)])
+    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=500)])
     submit = SubmitField('Add Item')
 
 class SignUpForm(FlaskForm):
