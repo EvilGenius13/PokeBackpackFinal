@@ -176,10 +176,9 @@ def logout():
     flash('You have been logged out!', 'success')
     return redirect(url_for('main.homepage'))
 
-@main.route('/filldata', methods=['GET', 'POST'])
+@main.route('/fillpokemon', methods=['GET', 'POST'])
 def filldata():
     POKE_API = 'https://pokeapi.co/api/v2/pokemon/'
-    ITEM_API = 'https://pokeapi.co/api/v2/item/'
     for i in range(1, 152):
         response = requests.get(POKE_API + str(i))
         data = response.json()
@@ -194,7 +193,12 @@ def filldata():
         )
         db.session.add(pokemon)
         db.session.commit()
-        flash('Data has been filled!', 'success')
+        flash('Pokemon has been filled!', 'success')
+    return redirect(url_for('main.homepage'))
+
+@main.route('/fillitems', methods=['GET', 'POST'])
+def fillitems():
+    ITEM_API = 'https://pokeapi.co/api/v2/item/'
     for i in range(1, 51):
         response = requests.get(ITEM_API + str(i))
         data = response.json()
@@ -202,12 +206,12 @@ def filldata():
             id = i,
             name = data['name'],
             artwork = data['sprites']['default'],
-            price = random.randint(100, 1000),
+            price = random.randint(1, 100),
             description = data['effect_entries'][0]['effect']
         )
         db.session.add(item)
         db.session.commit()
-        flash('Data has been filled!', 'success')
+        flash('Item has been filled!', 'success')
     return redirect(url_for('main.homepage'))
 
 @main.route('/profile/<username>')

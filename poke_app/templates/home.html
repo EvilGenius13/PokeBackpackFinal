@@ -26,7 +26,7 @@
       <div id="homepage-logout-container">
         <div class="potd">
           <h1>Pokemon of the day:</h1>
-          <h2>{{ potd.name }}</h2>
+          <h2>{{ potd.name.capitalize() }}</h2>
           <a href="/pokemon/{{ potd.id }}"><img src="{{ potd.artwork }}" alt="{{ potd.name }}"></a>
           <p>Type: {{ potd.category }}</p>
           <p>Attack: {{ potd.attack }}</p>
@@ -34,7 +34,7 @@
         </div>
         <div class="iotd">
           <h1>Item of the day:</h1>
-          <h2>{{ iotd.name }}</h2>
+          <h2>{{ iotd.name.capitalize() }}</h2>
           <a href="/item/{{ iotd.id }}"><img src="{{ iotd.artwork }}" alt="{{ iotd.name }}"></a>
           <p>Price: {{ iotd.price }}</p>
           <p>{{ iotd.description }}</p>
