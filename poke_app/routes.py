@@ -195,7 +195,7 @@ def filldata():
         db.session.add(pokemon)
         db.session.commit()
         flash('Data has been filled!', 'success')
-    for i in range(1, 21):
+    for i in range(1, 51):
         response = requests.get(ITEM_API + str(i))
         data = response.json()
         item = Items(
