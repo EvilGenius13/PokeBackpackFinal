@@ -156,6 +156,11 @@ input[type="submit"]:hover {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 4px;
+    
+}
+
+#item-grid {
+    padding: 5px;
 }
 
 #poke-grid {
