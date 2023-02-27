@@ -17,6 +17,12 @@
   <h1>Profile</h1>
   <p>You are not logged in.</p>
 {% endif %}
+{% if current_user.username == 'admin' %}
+  <h2>Web Metrics:</h2>
+    <p>Number of users: {{ num_users }}</p>
+    <p>Number of pokemon: {{ num_pokemon }}</p>
+    <p>Number of items: {{ num_items }}</p>
+{% endif %}
   </div>
   
 {% endblock %}

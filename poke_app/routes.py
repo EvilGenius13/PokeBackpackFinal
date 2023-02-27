@@ -217,7 +217,13 @@ def fillitems():
 @main.route('/profile/<username>')
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('profile.html', user=user)
+    users = User.query.all()
+    pokemon = Pokemon.query.all()
+    items = Items.query.all()
+    num_users = len(users)
+    num_pokemon = len(pokemon)
+    num_items = len(items)
+    return render_template('profile.html', user=user, num_pokemon=num_pokemon, num_items=num_items, num_users=num_users)
 
 @main.route('/favourite/<int:pokemon_id>', methods=['POST'])
 @login_required
