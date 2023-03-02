@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
   <style>
-    #pokemon-card { background-color: {{ colour }}; }
+    :root {
+      --pokemon-color: {{ colour }};
+    }
+    #pokemon-card {
+      background-color: var(--pokemon-color);
+    }
   </style>
   <div id="pokemon-body">
   <div id="pokemon-card">
