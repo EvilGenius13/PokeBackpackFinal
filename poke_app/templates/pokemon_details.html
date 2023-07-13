@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <style>
+    :root {
+      --pokemon-color: {{ colour }};
+    }
+    #pokemon-card {
+      background-color: var(--pokemon-color);
+    }
+  </style>
+  <div id="pokemon-body">
+  <div id="pokemon-card">
+  <h1>{{pokemon.name.capitalize()}}</h1>
+  <img src="{{ pokemon.artwork }}" alt="{{ pokemon.name }}">
+  <p>PokeDex#: {{ pokemon.id }}</p>
+  <p>Type: {{ pokemon.category }}</p>
+  <p>Attack: {{ pokemon.attack }}</p>
+  <p>Defense: {{ pokemon.defense }}</p>
+  <p>HP: {{ pokemon.hp }}</p>
+  </div>  
+  </div>
+  {% if pokemon not in current_user.favourite_pokemon %}
+  <form action = "/favourite/{{ pokemon.id }}" method = "POST">
+    <input type="submit" value="Add to Favourites">
+  {% else %}
+  <form action = "/unfavourite/{{ pokemon.id }}" method = "POST">
+    <input type="submit" value="Remove from Favourites">
+  {% endif %}
+  <div id="editwrapper">
+    <a id="editbutton" href="/pokemon/{{ pokemon.id }}/edit">Edit Pokemon</a>
+    <a id="editbutton" href="/pokemon/{{ pokemon.id }}/delete">Delete Pokemon</a>
+  </div>
+{% endblock %}

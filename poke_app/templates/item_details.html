@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h1>{{item.name.capitalize()}}</h1>
+  <img src="{{ item.artwork }}" alt="{{ item.name }}">
+  <p>Price: {{ item.price }}</p>
+  <p>Description: {{ item.description }}</p>
+  <a id="editbutton" href="/item/{{ item.id }}/edit">Edit Item</a>
+  <a id="editbutton" href="/item/{{ item.id }}/delete">Delete Item</a>
+
+{% endblock %}
