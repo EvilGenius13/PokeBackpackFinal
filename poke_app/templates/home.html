@@ -6,20 +6,24 @@
   <div id="homepage-container">
     {% if current_user.is_authenticated %}
     <div class="pokemon">
+      {% if pokemon %}
         {% for poke in pokemon %}
-        <div id="poke-grid">
-          <h2>{{ poke.name.capitalize() }}</h2>
-          <a href="/pokemon/{{ poke.id }}"><img src="{{ poke.artwork }}" alt="{{ poke.name }}"></a>
-        </div>
+          <div id="poke-grid">
+            <h2>{{ poke.name.capitalize() }}</h2>
+            <a href="/pokemon/{{ poke.id }}"><img src="{{ poke.artwork }}" alt="{{ poke.name }}"></a>
+          </div>
         {% endfor %}
+      {% endif %}
     </div>
     <div class="item">
-      {% for item in items %}
-        <div id="item-grid">
-          <h2>{{ item.name.capitalize() }}</h2>
-          <a href="/item/{{ item.id }}"><img src="{{ item.artwork }}" alt="{{ item.name }}"></a>
-        </div>
+      {% if items %}
+        {% for item in items %}
+          <div id="item-grid">
+            <h2>{{ item.name.capitalize() }}</h2>
+            <a href="/item/{{ item.id }}"><img src="{{ item.artwork }}" alt="{{ item.name }}"></a>
+          </div>
         {% endfor %}
+      {% endif %}
     </div>
     </div>
       {% else %}
