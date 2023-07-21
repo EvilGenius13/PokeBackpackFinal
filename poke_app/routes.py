@@ -36,8 +36,29 @@ colours = {
 def homepage():
     pokemon = Pokemon.query.all()
     items = Items.query.all()
-    potd = random.choice(Pokemon.query.all())
-    iotd = random.choice(Items.query.all())
+    # If there are no Pokémon in the database, set a default Pokémon of the day.
+    if not pokemon:
+        potd = Pokemon(
+            name="Default Pokémon",
+            category="NORMAL",
+            artwork="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/813.png",
+            attack=50,
+            defense=50,
+            hp=100
+        )
+    else:
+        potd = random.choice(pokemon)
+
+    # If there are no items in the database, set a default Item of the day.
+    if not items:
+        iotd = Items(
+            name="Default Item",
+            artwork="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/fresh-water.png",
+            price=10,
+            description="This is a placeholder description for the default item."
+        )
+    else:
+        iotd = random.choice(items)
     return render_template('home.html', pokemon=pokemon, items=items, potd=potd, iotd=iotd)
 
 @main.route('/create_pokemon', methods=['GET', 'POST'])
