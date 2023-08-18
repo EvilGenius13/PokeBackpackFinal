@@ -4,23 +4,19 @@
 - Look up Pokemon from the original Kanto region
 - Find out their type, height, weight, and more!
 - Find items and their descriptions
-- Add Pokemon to your favorites list (team)
+- Add Pokemon to your team, up to six.
 
 ## Filling the Database
-- If you need to delete and reset the database :
+- To fill the database:
   - Go to base.html
-  - Uncomment the line that says : "<a href="/fillpokemon">Fill Data</a>"
-  - Boot the server
-  - go to localhost:5000/filldata
-  - Comment out the line in base.html again
-  - Please note it will take a bit to complete. When it's done you'll get a bunch of messages saying Success
+  - Click the button that says "Fill Database"
+  - Please note it will take a bit to complete. When it's done you'll get a message saying data filled.
 
-### Todo List
-- Add tests
-- Try to get rid of style warning in pokemon_details.html 
-
-
-### Future Features
-- Add a search bar
-- Add a filter for pokemon types
+## Now with Docker!
+- To run the app with docker, run the following commands:
+  - `docker build -t pokedex .`
+  - `docker run -p 5000:5000 pokedex`
+- To run the app with docker-compose, run the following commands:
+  - `docker-compose build`
+  - `docker-compose up`
 
