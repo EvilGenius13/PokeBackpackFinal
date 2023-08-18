@@ -1,0 +1,20 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: Ash
+      POSTGRES_PASSWORD: Ketchum
+      POSTGRES_DB: pokeappdb
+
+  pokeapp:
+    image: evilgenius13/pokeapp:latest
+    ports:
+      - "5000:5000"
+    environment:
+      POSTGRES_USER: Ash
+      POSTGRES_PASSWORD: Ketchum
+      SECRET_KEY: pokemon
+      DATABASE_URL: postgresql://Ash:Ketchum@postgres:5432/pokeappdb
+    depends_on:
+      - postgres
