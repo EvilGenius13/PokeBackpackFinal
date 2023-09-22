@@ -1,5 +1,8 @@
+import os
 import asyncio
 import random
+import redis
+from flask_caching import Cache
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from poke_app.models import Pokemon, Items, User
@@ -11,6 +14,13 @@ import aiohttp
 
 main = Blueprint("main", __name__)
 auth = Blueprint("auth", __name__)
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+app.redis = redis.StrictRedis.from_url(REDIS_URL)
+cache = Cache(config={
+    'CACHE_TYPE': 'redis',
+    'CACHE_REDIS_URL': REDIS_URL
+})
+cache.init_app(app)
 
 colours = {
     'Normal': '#A8A77A',
@@ -57,13 +67,24 @@ async def get_items_data(session):
 
     return items_data
 
+TIMEOUT = 300  # 300 seconds or 5 minutes
+
+@cache.memoize(timeout=TIMEOUT)
+def get_all_pokemon():
+    return Pokemon.query.all()
+
+@cache.memoize(timeout=TIMEOUT)
+def get_all_items():
+    return Items.query.all()
+
+
 #! Routes Below this line
 #------------------------------------------------------------#
 
 @main.route('/')
 def homepage():
-    pokemon = Pokemon.query.all()
-    items = Items.query.all()
+    pokemon = get_all_pokemon()
+    items = get_all_items()
     # If there are no Pokémon in the database, set a default Pokémon of the day.
     if not pokemon:
         potd = Pokemon(
@@ -257,6 +278,11 @@ def filldata():
         db.session.commit()
 
     asyncio.run(fill_data())
+
+    # Clear the cache for the get_all_pokemon and get_all_items functions
+    cache.delete_memoized(get_all_pokemon)
+    cache.delete_memoized(get_all_items)
+
     flash('Data has been filled!', 'success')
     return redirect(url_for('main.homepage'))
 
@@ -264,8 +290,10 @@ def filldata():
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
     users = User.query.all()
-    pokemon = Pokemon.query.all()
-    items = Items.query.all()
+
+    pokemon = get_all_pokemon()
+    items = get_all_items()
+
     num_users = len(users)
     num_pokemon = len(pokemon)
     num_items = len(items)
