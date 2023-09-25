@@ -32,7 +32,7 @@ services:
       start_period: 5s
 
   pokeapp:
-    image: evilgenius13/pokeapp:v2.3
+    build: .
     ports:
       - "5000:5000"
     environment:

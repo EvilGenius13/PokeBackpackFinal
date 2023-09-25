@@ -4,7 +4,7 @@ FROM python:3.8-slim-buster
 # Set the working directory in the container
 WORKDIR /app
 
-# Install netcat for our startup script - doesn't come with slim-buster
+# Install netcat for our startup script - doesn't come with slim-buster (needed for the startup script)
 RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file
