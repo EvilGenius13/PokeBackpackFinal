@@ -34,7 +34,7 @@ jobs:
     - name: Run tests
       run: |
         # Assuming you're running tests from within a container.
-        docker exec -t pokebackpackfinal_pokeapp_1 python3 -m unittest /app/authtest.py
+        docker exec -t pokebackpackfinal_pokeapp_1 python3 -m unittest /app/poke_app/authtest.py
 
     - name: Stop Docker containers
       run: docker-compose down
