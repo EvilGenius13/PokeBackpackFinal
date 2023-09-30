@@ -1,4 +1,4 @@
-version: '3' # This is a deployment config for portainer. It pulls from the github repo.
+version: '3.8'  # Newer Docker Compose version. This is a deployment config for portainer with docker swarm. It pulls from the github repo.
 
 volumes:
   postgres_data:
@@ -23,7 +23,9 @@ services:
   redis:
     image: redis:latest
     ports:
-      - "6379:6379"
+      - target: 6379
+        published: 6379
+        protocol: tcp
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
@@ -34,7 +36,9 @@ services:
   pokeapp:
     build: .
     ports:
-      - "5000:5000"
+      - target: 5000
+        published: 5000
+        protocol: tcp
     environment:
       SECRET_KEY: pokemon
       DATABASE_URL: postgresql://Ash:Ketchum@postgres:5432/pokeappdb
@@ -42,4 +46,9 @@ services:
     depends_on:
       - postgres
       - redis
-    command: /app/start-pokeapp.sh  # Script command to watch for postgres and redis to be ready before starting the app
+    command: /app/start-pokeapp.sh
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 10s

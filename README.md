@@ -9,7 +9,6 @@
 
 ## Filling the Database
 - To fill the database:
-  - Go to base.html
   - Click the button that says "Fill Database"
   - Please note it will take a bit to complete. When it's done you'll get a message saying data filled.
 
@@ -21,3 +20,7 @@
   - `docker-compose build`
   - `docker-compose up`
 
+## And DevOps!
+- If you have portainer or another docker management system that allows you to use github repos, you can point to this repo and use `dc-ops.yml` to deploy the app.
+### Thank you
+- Thank you to @digitsgaming for the continual support with server infrastructure and deployment.
