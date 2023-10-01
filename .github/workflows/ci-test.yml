@@ -1,8 +1,6 @@
 name: CI
 
-on: 
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -22,20 +20,17 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
-
     - name: Build and start Docker containers
       run: |
         docker-compose up -d
-
     - name: Wait for the server to be up
       run: |
         while ! curl -s http://localhost:5000/ > /dev/null; do
           sleep 1
         done
-
     - name: Run tests
       run: |
+        # Assuming you're running tests from within a container.
         docker exec -t pokebackpackfinal_pokeapp_1 python3 -m unittest discover -s /app/poke_app/ -p '*test.py'
-
     - name: Stop Docker containers
       run: docker-compose down
