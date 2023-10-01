@@ -1,4 +1,4 @@
-# App Version: 2.3
+# App Version: 2.4
 version: '3.8'  # Newer Docker Compose version. This is a deployment config for portainer with docker swarm. It pulls from the github repo.
 
 volumes:
@@ -35,7 +35,7 @@ services:
       start_period: 5s
 
   pokeapp:
-    image: evilgenius13/pokeapp:v2.3
+    image: evilgenius13/pokeapp:v2.4
     ports:
       - target: 5000
         published: 5000
