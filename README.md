@@ -21,6 +21,7 @@
   - `docker-compose up`
 
 ## And DevOps!
-- If you have portainer or another docker management system that allows you to use github repos, you can point to this repo and use `dc-ops.yml` to deploy the app.
+- If you have portainer or another docker management system that allows you to use github repos, you can point to this repo and use `dc-ops.yml` to deploy the app. 
+- You can also look at the `dc-swarm.yml` file to see how to deploy the app to a swarm. This will create one redis and postgres instance with three replicas of the app.
 ### Thank you
 - Thank you to @digitsgaming for the continual support with server infrastructure and deployment.
