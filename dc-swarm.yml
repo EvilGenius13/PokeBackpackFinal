@@ -1,3 +1,4 @@
+# App Version: 2.3
 version: '3.8'  # Newer Docker Compose version. This is a deployment config for portainer with docker swarm. It pulls from the github repo.
 
 volumes:
