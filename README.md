@@ -5,7 +5,7 @@
 - Find out their type, height, weight, and more!
 - Find items and their descriptions
 - Add Pokemon to your team, up to six.
-- Built in caching to speed up the app
+- Built in caching to speed up the app.
 
 ## Filling the Database
 - To fill the database:
